@@ -9,13 +9,14 @@ app.use(cors());
 app.use(bodyParser.json());
 
 // 🔹 MySQL connection (update password if needed)
+require("dotenv").config();
 
 const db = mysql.createConnection({
-    host: "localhost",
-    port:"3306",
-    user: "webuser",
-    password: "web123", // ← put your MySQL password if you have one
-    database: "mehandi_booking"
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME,
+    port: process.env.DB_PORT
 });
 
 // 🔹 Connect to MySQL
@@ -158,9 +159,13 @@ app.post("/api/login", (req, res) => {
 });
 
 // 🔹 Start server
-app.listen(5000, () => {
-    console.log("🚀 Server running at http://localhost:5000");
+const PORT = process.env.PORT || 5000;
+
+app.listen(PORT, () => {
+    console.log(`🚀 Server running on port ${PORT}`);
 });
+
+
 
 
 
