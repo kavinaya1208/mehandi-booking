@@ -9,7 +9,14 @@ const bodyParser = require("body-parser");
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
-app.use(express.static("public"));
+
+// 🔥 Serve static files from root folder
+app.use(express.static(__dirname));
+
+// 🔥 Set homepage
+app.get("/", (req, res) => {
+  res.sendFile(__dirname + "/art.html");
+});
 
 /* =========================
    🔹 MySQL Connection
@@ -30,23 +37,6 @@ db.connect((err) => {
   }
   console.log("✅ MySQL connected successfully");
 });
-
-/* =========================
-   🔹 Thank You Message Function
-========================= */
-
-async function sendThankYouMessage(phone, name, service, date) {
-  const thankYouMessage = `Thank you ${name} for booking our Mehandi service!
-
-🗓️ Service: ${service}
-📅 Date: ${date}
-
-Best regards,
-Mehandi Art by Kavinaya`;
-
-  console.log(`📱 Message would be sent to ${phone}`);
-  console.log(thankYouMessage);
-}
 
 /* =========================
    🔹 Booking API
@@ -70,7 +60,6 @@ app.post("/api/bookings", (req, res) => {
         return res.status(500).json({ success: false });
       }
 
-      sendThankYouMessage(phone, name, service, date);
       res.json({ success: true });
     }
   );
@@ -92,9 +81,9 @@ app.post("/api/login", (req, res) => {
     }
 
     if (result.length > 0) {
-      res.json({ success: true, message: "Login successful" });
+      res.json({ success: true });
     } else {
-      res.status(401).json({ success: false, message: "Invalid login details" });
+      res.status(401).json({ success: false });
     }
   });
 });
@@ -108,4 +97,3 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
 });
-
