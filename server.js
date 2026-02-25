@@ -28,6 +28,32 @@ db.connect((err) => {
   }
   console.log("✅ MySQL connected successfully");
 });
+app.get("/init-db", (req, res) => {
+  db.query(`
+    CREATE TABLE IF NOT EXISTS bookings (
+      id INT AUTO_INCREMENT PRIMARY KEY,
+      name VARCHAR(255),
+      phone VARCHAR(20),
+      email VARCHAR(255),
+      event_date DATE,
+      event_time TIME,
+      service VARCHAR(255),
+      location VARCHAR(255),
+      message TEXT,
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    )
+  `);
+
+  db.query(`
+    CREATE TABLE IF NOT EXISTS users (
+      id INT AUTO_INCREMENT PRIMARY KEY,
+      email VARCHAR(255),
+      password VARCHAR(255)
+    )
+  `);
+
+  res.send("Database initialized successfully");
+});
 /* =========================
    🔹 Booking API
 ========================= */
@@ -87,5 +113,6 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
 });
+
 
 
