@@ -18,8 +18,17 @@ app.get("/", (req, res) => {
   res.sendFile(__dirname + "/art.html");
 });
 
+require("dotenv").config();
 
-const db = mysql.createConnection(process.env.DATABASE_URL);
+const mysql = require("mysql2");
+
+const db = mysql.createConnection({
+  host: process.env.MYSQLHOST,
+  user: process.env.MYSQLUSER,
+  password: process.env.MYSQLPASSWORD,
+  database: process.env.MYSQLDATABASE,
+  port: process.env.MYSQLPORT
+});
 
 db.connect((err) => {
   if (err) {
@@ -28,6 +37,7 @@ db.connect((err) => {
   }
   console.log("✅ MySQL connected successfully");
 });
+
 app.get("/init-db", (req, res) => {
   db.query(`
     CREATE TABLE IF NOT EXISTS bookings (
@@ -113,6 +123,7 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
 });
+
 
 
 
