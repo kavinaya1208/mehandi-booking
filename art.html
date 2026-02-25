@@ -4,33 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mehandi Art by Kavinaya | Premium Bridal & Party Mehandi | Coimbatore</title>
-    
-    <!-- Firebase SDK -->
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-        import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
-
-        // Your Firebase configuration
-        const firebaseConfig = {
-            apiKey: "AIzaSyDlvdcyefVMNpAXGVJRUdeGWR0bECyedMo",
-            authDomain: "bookings-8cbcf.firebaseapp.com",
-            projectId: "bookings-8cbcf",
-            storageBucket: "bookings-8cbcf.firebasestorage.app",
-            messagingSenderId: "504293569647",
-            appId: "1:504293569647:web:501c1b57a057ae1930499a"
-        };
-
-        // Initialize Firebase
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-
-        // Make db available globally
-        window.db = db;
-        window.addDoc = addDoc;
-        window.serverTimestamp = serverTimestamp;
-        window.collection = collection;
-    </script>
-    
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
@@ -82,7 +55,7 @@
         .hero {
             min-height: 100vh; position: relative; display: flex; align-items: center;
             background: linear-gradient(135deg, rgba(92,13,36,0.92), rgba(26,10,10,0.95)), 
-                        url('images/background.png') center/cover fixed;
+                        url('images\background.png') center/cover fixed;
         }
         .hero::before {
             content: ''; position: absolute; inset: 0;
@@ -324,7 +297,7 @@
     <!-- Navigation -->
     <nav id="navbar">
         <div class="logo">
-            <div class="logo-icon"> <img src="images/logo1.png" alt="Logo"> </div>
+            <div class="logo-icon"> <img src="images/logo1.png"> </div>
             <div class="logo-text">
                 <h1>Kavinaya</h1>
                 <span>Mehandi Artist</span>
@@ -382,9 +355,9 @@
     <section class="about" id="about">
         <div class="about-container">
             <div class="about-images">
-                <img src="images/gallery1.jpg" alt="Mehandi Art" class="about-img">
+                <img src="images/gallery1" alt="Mehandi Art" class="about-img">
                 <img src="images/gallery.jpg" alt="Bridal Mehandi" class="about-img">
-                <img src="images/gallery2.jpg" alt="Our Work" class="about-img">
+                <img src="images/gallery2" alt="Our Work" class="about-img">
             </div>
             <div class="about-content">
                 <h4>Our Story</h4>
@@ -456,7 +429,7 @@
             </div>
             <div class="service-card">
                 <div class="service-img">
-                    <img src="images/arebic.jpg" alt="Arabic Mehandi">
+                    <img src="images/arebic" alt="Arabic Mehandi">
                 </div>
                 <div class="service-content">
                     <h3>Arabic Style</h3>
@@ -624,6 +597,7 @@
                 <div class="stars">★★★★★</div>
                 <p>"Kavinaya made my wedding day extra special! The bridal mehandi was absolutely stunning and lasted for weeks. Her attention to detail is incredible."</p>
                 <div class="testimonial-author">
+                
                     <div>
                         <h5>Saranya</h5>
                         <span>Bride, Dec 2024</span>
@@ -634,6 +608,7 @@
                 <div class="stars">★★★★★</div>
                 <p>"Best mehandi artist in Coimbatore! She understood exactly what I wanted and created a personalized design with our love story elements. Highly recommended!"</p>
                 <div class="testimonial-author">
+                    
                     <div>
                         <h5>Gokula Priya</h5>
                         <span>Bride, Nov 2025</span>
@@ -644,6 +619,7 @@
                 <div class="stars">★★★★★</div>
                 <p>"I took the online course and learned so much! Kavinaya is a wonderful teacher. Now I do mehandi for all my family functions. Worth every rupee!"</p>
                 <div class="testimonial-author">
+            
                     <div>
                         <h5>Meera Sundaram</h5>
                         <span>Online Course Student</span>
@@ -768,6 +744,7 @@
             <a href="https://www.instagram.com/mehandi_by_kavinaya/" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
             <a href="https://wa.me/919787684441" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
             <a href="https://www.youtube.com/@mehandibykavi" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+        
         </div>
     </section>
 
@@ -828,7 +805,7 @@
         // Set minimum date
         document.getElementById('date').min = new Date().toISOString().split('T')[0];
 
-        // Form submission with Firebase Firestore
+        // Form submission
         document.getElementById('bookingForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
@@ -844,25 +821,30 @@
             const formattedDate = new Date(date).toLocaleDateString('en-IN', {
                 weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
             });
+            // 👉 PASTE THIS CODE HERE (AFTER variables)
+fetch("https://mehandi-booking-production.up.railway.app/api/bookings", {
 
-            // Save booking to Firebase Firestore
-            const bookingsRef = collection(window.db, "bookings");
-            addDoc(bookingsRef, {
-                name: name,
-                phone: phone,
-                email: email,
-                date: date,
-                time: time,
-                service: service,
-                location: location,
-                message: message,
-                createdAt: window.serverTimestamp()
-            })
-            .then((docRef) => {
-                console.log("Booking saved to Firebase Firestore with ID:", docRef.id);
-                
-                // Show success modal
-                const whatsappMsg = `🌸 *New Booking - Mehandi Art by Kavinaya* 🌸
+    method: "POST",
+    headers: {
+        "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+        name,
+        phone,
+        email,
+        date,
+        time,
+        service,
+        location,
+        message
+    })
+})
+.then(res => res.json())
+.then(data => {
+    if (data.success) {
+        console.log("Booking saved to SQL database");
+        // Show success modal only on successful booking
+        const whatsappMsg = `🌸 *New Booking - Mehandi Art by Kavinaya* 🌸
 
 *Customer Details:*
 👤 Name: ${name}
@@ -882,8 +864,8 @@ ${message || 'None'}
 Thank you for choosing Mehandi Art by Kavinaya! ✨
 We will confirm your booking shortly.`;
 
-                // Send notification to business WhatsApp
-                const businessNotificationMsg = `🔔 *New Booking Alert - Mehandi Art by Kavinaya* 🔔
+        // Send notification to business WhatsApp
+        const businessNotificationMsg = `🔔 *New Booking Alert - Mehandi Art by Kavinaya* 🔔
 
 *New Customer Booking Received!*
 
@@ -904,11 +886,11 @@ ${message || 'None'}
 ---
 Please contact the customer to confirm the booking details.`;
 
-                const encodedBusinessMsg = encodeURIComponent(businessNotificationMsg);
-                const businessWhatsappUrl = `https://wa.me/919787684441?text=${encodedBusinessMsg}`;
+        const encodedBusinessMsg = encodeURIComponent(businessNotificationMsg);
+        const businessWhatsappUrl = `https://wa.me/919787684441?text=${encodedBusinessMsg}`;
 
-                // Send confirmation to customer's WhatsApp
-                const customerConfirmationMsg = `🌸 *Booking Confirmation - Mehandi Art by Kavinaya* 🌸
+        // Send confirmation to customer's WhatsApp
+        const customerConfirmationMsg = `🌸 *Booking Confirmation - Mehandi Art by Kavinaya* 🌸
 
 Hi ${name}! ✨
 
@@ -928,32 +910,37 @@ Thank you for choosing Mehandi Art by Kavinaya! 💕
 
 For any queries: +91 97876 84441`;
 
-                const encodedCustomerMsg = encodeURIComponent(customerConfirmationMsg);
-                const customerWhatsappUrl = `https://wa.me/91${phone}?text=${encodedCustomerMsg}`;
+        const encodedCustomerMsg = encodeURIComponent(customerConfirmationMsg);
+        const customerWhatsappUrl = `https://wa.me/91${phone}?text=${encodedCustomerMsg}`;
 
-                // Open both WhatsApp tabs automatically
-                window.open(businessWhatsappUrl, '_blank');
-                setTimeout(() => {
-                    window.open(customerWhatsappUrl, '_blank');
-                }, 1000);
+        // Open both WhatsApp tabs automatically
+        window.open(businessWhatsappUrl, '_blank');
+        setTimeout(() => {
+            window.open(customerWhatsappUrl, '_blank');
+        }, 1000); // Small delay to avoid popup blockers
 
-                const whatsappUrl = customerWhatsappUrl;
+        const whatsappUrl = customerWhatsappUrl; // For the modal button
 
-                document.getElementById('confirmDetails').innerHTML = `
-                    <strong>${name}</strong>, your booking for <strong>${service}</strong>
-                    on <strong>${formattedDate}</strong> at <strong>${time}</strong> has been recorded!
-                    <br><br>We've automatically sent WhatsApp notifications to both our team and you. You can click below to open your WhatsApp confirmation:
-                `;
-                document.getElementById('whatsappLink').href = whatsappUrl;
-                document.getElementById('confirmModal').classList.add('active');
+        document.getElementById('confirmDetails').innerHTML = `
+            <strong>${name}</strong>, your booking for <strong>${service}</strong>
+            on <strong>${formattedDate}</strong> at <strong>${time}</strong> has been recorded!
+            <br><br>We've automatically sent email confirmations to both our team and you${email ? '' : ' (please provide email for confirmations)'}. WhatsApp notifications are also ready. You can click below to open your WhatsApp confirmation:
+        `;
+        document.getElementById('whatsappLink').href = whatsappUrl;
+        document.getElementById('confirmModal').classList.add('active');
 
-                this.reset();
-            })
-            .catch((error) => {
-                // Handle Firestore error
-                alert("❌ Booking failed. Please try again or contact us directly.");
-                console.error("Firestore error:", error);
-            });
+        this.reset();
+    } else {
+        // Handle booking failure
+        alert("❌ Booking failed. Please try again or contact us directly.");
+        console.error("Booking failed:", data);
+    }
+})
+.catch(error => {
+    // Handle network or other errors
+    alert("❌ Network error. Please check your connection and try again.");
+    console.error("Fetch error:", error);
+});
         });
 
         function closeModal() {
