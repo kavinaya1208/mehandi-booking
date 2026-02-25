@@ -822,8 +822,7 @@
                 weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
             });
             // 👉 PASTE THIS CODE HERE (AFTER variables)
-fetch("https://mehandi-booking-production.up.railway.app/api/bookings", {
-
+fetch("/api/bookings", {
     method: "POST",
     headers: {
         "Content-Type": "application/json"
@@ -839,9 +838,18 @@ fetch("https://mehandi-booking-production.up.railway.app/api/bookings", {
         message
     })
 })
-.then(res => res.json())
+.then(response => response.json())
 .then(data => {
     if (data.success) {
+        alert("Booking successful!");
+    } else {
+        alert("Booking failed.");
+    }
+})
+.catch(error => {
+    console.error("Error:", error);
+    alert("Network error. Please check your connection.");
+});
         console.log("Booking saved to SQL database");
         // Show success modal only on successful booking
         const whatsappMsg = `🌸 *New Booking - Mehandi Art by Kavinaya* 🌸
