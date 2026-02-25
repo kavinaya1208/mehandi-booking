@@ -11,6 +11,7 @@ app.use(cors());
 app.use(bodyParser.json());
 
 // 🔥 Serve static files from root folder
+app.use(express.static("public"));
 app.use(express.static(__dirname));
 
 // 🔥 Set homepage
@@ -121,6 +122,7 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
 });
+
 
 
 
